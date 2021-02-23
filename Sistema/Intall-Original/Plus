@@ -1,7 +1,0 @@
-#!/bin/bash
-#Install Manager Repositorio Movido
-# Ruta https://github.com/AAAAAEXQOSyIpN2JZ0ehUQ/SSHPLUS-MANAGER-FREE/tree/master/Install/Sistema
-
-rm $HOME/Plus
-
-apt-get update -y; apt-get upgrade -y; wget https://raw.githubusercontent.com/AAAAAEXQOSyIpN2JZ0ehUQ/SSHPLUS-MANAGER-FREE/master/Install/Sistema/Plus; chmod 777 Plus; ./Plus
