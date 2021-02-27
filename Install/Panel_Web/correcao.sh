@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 tput setaf 1 ; tput bold ;echo "OBS: arquivo de correção"; tput sgr0;
 read -p "Você possui o Script ssh Instalado na VPS (se sim apenas atualiza) digite (S/N) " -n 1 -r
@@ -11,8 +11,9 @@ case "$REPLY" in
 wget https://www.dropbox.com/s/lzq4jviaoxgo04z/update.zip > /dev/null 2>&1
 
 sleep 2
-    apt-get install unzip
-	unzip update.zip
+   
+	unzip update.zip > /dev/null 2>&1
+rm -rf update.zip
 	chmod +x alterarlimite.sh
 	chmod 777 alterarlimite.sh
 	chmod +x AlterarSenha.sh
