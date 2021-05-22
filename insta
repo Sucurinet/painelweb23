@@ -34,10 +34,11 @@ ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
 apt-get install libssh2-1-dev libssh2-php -y > /dev/null 2>&1
 if [ "$(php -m |grep ssh2)" = "ssh2" ]; then
   true
+  echo -e "\033[1;31m ERRO CRITICO libssh2 nao foi possivel instalar\033[0m"
 else
   clear
-  echo -e "\033[1;31m ERRO CRITICO\033[0m"
-  rm $HOME/install.sh
+  echo -e "\033[1;31m libssh2 instalada com sucesso segue instalacao\033[0m"
+  rm $HOME/insta.sh
   exit
 fi
 apt-get install php5-curl > /dev/null 2>&1
