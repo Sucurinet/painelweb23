@@ -13,7 +13,10 @@ apt-get update -y > /dev/null 2>&1
 apt-get install cron curl unzip -y > /dev/null 2>&1
 echo -e "\n\033[1;36mINSTALANDO O APACHE2 \033[1;33mAGUARDE...\033[0m"
 apt-get install apache2 -y > /dev/null 2>&1
-apt-get install php5 libapache2-mod-php5 php5-mcrypt -y > /dev/null 2>&1
+apt install php5.6 libapache2-mod-php5.6 php5.6-curl php5.6-gd php5.6-mbstring php5.6-mcrypt php5.6-mysql php5.6-xml php5.6-xmlrpc -y > /dev/null 2>&1
+sudo a2dismod php7.0
+sudo a2enmod php5.6
+sudo update-alternatives --set php /usr/bin/php5.6
 service apache2 restart > /dev/null 2>&1
 echo -e "\n\033[1;36mINSTALANDO O MySQL \033[1;33mAGUARDE...\033[0m"
 echo "debconf mysql-server/root_password password $senha" | debconf-set-selections
@@ -28,10 +31,14 @@ echo "phpmyadmin phpmyadmin/mysql/admin-pass password $senha" | debconf-set-sele
 echo "phpmyadmin phpmyadmin/mysql/app-pass password $senha" | debconf-set-selections
 echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
 apt-get install phpmyadmin -y > /dev/null 2>&1
-php5enmod mcrypt > /dev/null 2>&1
+#php5enmod mcrypt > /dev/null 2>&1
 service apache2 restart > /dev/null 2>&1
 ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
-apt-get install libssh2-1-dev libssh2-php -y > /dev/null 2>&1
+sudo apt-get install gcc make autoconf libc-dev pkg-config php5-dev
+sudo pecl install ssh2-0.13
+sudo pecl install https://pecl.php.net/get/ssh2-0.13.tgz
+restart php-fpm
+#apt-get install libssh2-1-dev libssh2-php -y > /dev/null 2>&1
 if [ "$(php -m |grep ssh2)" = "ssh2" ]; then
   true
   echo -e "\033[1;31m ERRO CRITICO libssh2 nao foi possivel instalar\033[0m"
@@ -41,7 +48,7 @@ else
   rm $HOME/insta.sh
   exit
 fi
-apt-get install php5-curl > /dev/null 2>&1
+sudo apt-get install php5.6-curl > /dev/null 2>&1
 service apache2 restart > /dev/null 2>&1
 clear
 echo ""
