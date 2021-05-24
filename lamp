@@ -31,6 +31,7 @@ sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/mysql/admin-pass password
 sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/mysql/app-pass password root'
 sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2'﻿
 sudo apt-get -y install phpmyadmin
+ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
 sudo service apache2 restart
 echo -e "\e[92m phpMyAdmin installed successfully \e[39m"
 echo -e "\e[92m Remember: password for root user is root \e[39m"
