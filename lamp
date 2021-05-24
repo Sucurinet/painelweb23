@@ -23,7 +23,6 @@ echo "mysql-server-5.7 mysql-server/root_password_again password root" | sudo de
 sudo apt-get -y install mysql-server-5.7
 echo -e "\e[96m Installing composer \e[39m"
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
-sudo chown -R $USER $HOME/.composer
 echo -e "\e[96m Begin silent install phpMyAdmin \e[39m"
 echo -e "\e[93m User: root, Password: root \e[39m"
 sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/dbconfig-install boolean true'
