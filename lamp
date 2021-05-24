@@ -1,13 +1,38 @@
 #!/bin/bash
 set -euo pipefail
 IFS=$'\n\t'
-echo -e "\e[96m Adding PPA  \e[39m"
+
+echo "America/Sao_Paulo" > /etc/timezone
+ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime > /dev/null 2>&1
+dpkg-reconfigure --frontend noninteractive tzdata > /dev/null 2>&1
+IP=$(wget -qO- ipv4.icanhazip.com)
+set -euo pipefail
+IFS=$'\n\t'
+clear
+echo ""
+    apt-get update -y > /dev/null 2>&1 
+	apt-get install figlet -y > /dev/null 2>&1
+echo ""
+clear
+####################################################################################################
+echo -e "\E[44;1;37m    INSTALANDO WEB SERV PHP APACHE MYSQL PHPMYADMIN     \E[0m"
+echo ""
+echo -e "                              \033[1;31mBy @Mongevps\033[1;36m"
+echo -e "   LAMP-WEBSERV" | figlet 
+echo -e "                             \033[1;31mLAMP-WEBSERV V 1.0\033[1;36m"
+echo ""
+
+echo -e "\n\033[1;36mINICIANDO INSTALACAO ADICIONANDO O PPA  \033[1;33mAGUARDE..."
+
+#echo -e "\e[96m Adding PPA  \e[39m"
 sudo add-apt-repository -y ppa:ondrej/apache2
 sudo add-apt-repository -y ppa:ondrej/php
 sudo apt-get update
-echo -e "\e[96m Installing apache  \e[39m"
+#echo -e "\e[96m Installing apache  \e[39m"
+echo -e "           \033[1;33m● \033[1;32mINSTALANDO O APACHE2 \033[1;33m●\033[0m"
 sudo apt-get -y install apache2
-echo -e "\e[96m Installing php  \e[39m"
+#echo -e "\e[96m Installing php  \e[39m"
+echo -e "           \033[1;33m● \033[1;32mINSTALANDO O PHP \033[1;33m●\033[0m"
 sudo apt-get -y install php7.3 libapache2-mod-php7.3
 sudo apt-get -y install curl zip unzip php7.3-mysql php7.3-curl php7.3-json php7.3-mbstring php7.3-gd php7.3-intl php7.3-xml php7.3-zip php-gettext php7.3-pgsql php7.3-bcmath php7.3-redis
 #sudo apt-get -y install php-xdebug
@@ -15,23 +40,33 @@ sudo phpenmod curl
 sudo a2enmod rewrite
 sudo a2enmod ssl
 sudo a2enmod headers
-echo -e "\e[96m Restart apache server to reflect changes  \e[39m"
+#echo -e "\e[96m Restart apache server to reflect changes  \e[39m"
+echo -e "           \033[1;33m● \033[1;32mReiniciando o servidor apache para refletir as mudanças \033[1;33m●\033[0m"
 sudo service apache2 restart
-echo -e "\e[96m Installing mysql server \e[39m"
-echo "mysql-server-5.7 mysql-server/root_password password root" | sudo debconf-set-selections
-echo "mysql-server-5.7 mysql-server/root_password_again password root" | sudo debconf-set-selections
+#echo -e "\e[96m Installing mysql server \e[39m"
+echo -ne "\n\033[1;32m  DEFINA UMA SENHA PARA O\033[1;33m MySQL\033[1;37m: "; read senha
+echo -e "           \033[1;33m● \033[1;32mINSTALANDO O MySQL \033[1;33m●\033[0m"
+echo "mysql-server-5.7 mysql-server/root_password password $senha" | sudo debconf-set-selections
+echo "mysql-server-5.7 mysql-server/root_password_again password $senha" | sudo debconf-set-selections
 sudo apt-get -y install mysql-server-5.7
-echo -e "\e[96m Installing composer \e[39m"
+#echo -e "\e[96m Installing composer \e[39m"
+echo -e "           \033[1;33m● \033[1;32mINSTALANDO O COMPOSER \033[1;33m●\033[0m"
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
-echo -e "\e[96m Begin silent install phpMyAdmin \e[39m"
-echo -e "\e[93m User: root, Password: root \e[39m"
+#echo -e "\e[96m Begin silent install phpMyAdmin \e[39m"
+echo -e "           \033[1;33m● \033[1;32mINSTALANDO O PHPMYADMIN \033[1;33m●\033[0m"
+#echo -e "\e[93m User: root, Password: root \e[39m"
 sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/dbconfig-install boolean true'
-sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/app-password-confirm password root'
-sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/mysql/admin-pass password root'
-sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/mysql/app-pass password root'
+sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/app-password-confirm password $senha'
+sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/mysql/admin-pass password $senha'
+sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/mysql/app-pass password $senha'
 sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2'﻿
 sudo apt-get -y install phpmyadmin
 ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
 sudo service apache2 restart
-echo -e "\e[92m phpMyAdmin installed successfully \e[39m"
-echo -e "\e[92m Remember: password for root user is root \e[39m"
+echo -e "           \033[1;33m● \033[1;32mWEB SERVER INSTALADO COM SUCESSO! \033[1;33m●\033[0m"
+echo ""
+echo -e "\033[1;36m SEU WEBSERV:\033[1;37m http://$IP/\033[0m"
+echo -e "\033[1;36m USUARIO PHPMYADMIN:\033[1;37m root\033[0m"
+echo -e "\033[1;36m SENHA PHPMYADMIN:\033[1;37m $senha\033[0m"
+echo ""
+cat /dev/null > ~/.bash_history && history -c
