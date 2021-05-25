@@ -36,7 +36,6 @@ sudo phpenmod curl > /dev/null 2>&1
 sudo a2enmod rewrite > /dev/null 2>&1
 sudo a2enmod ssl > /dev/null 2>&1
 sudo a2enmod headers > /dev/null 2>&1
-sed -i "s;upload_max_filesize = 20M;upload_max_filesize = 50M;g" /etc/php/7.3/apache2/php.ini > /dev/null 2>&1
 echo -e "           \033[1;33m● \033[1;32mReiniciando o servidor apache para refletir as mudanças \033[1;33m●\033[0m"
 sudo service apache2 restart > /dev/null 2>&1
 #echo -e "\e[96m Installing mysql server \e[39m"
