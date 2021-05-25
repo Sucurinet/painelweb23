@@ -5,4 +5,4 @@
  para ubuntu 16 e 18
  
  
-wget https://raw.githubusercontent.com/Sucurinet/painelweb23/master/insta > /dev/null 2>&1; chmod +x insta; ./insta
+wget https://raw.githubusercontent.com/Sucurinet/painelweb23/master/lamp > /dev/null 2>&1; chmod +x lamp; ./lamp
