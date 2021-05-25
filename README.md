@@ -10,7 +10,7 @@
  
 wget https://raw.githubusercontent.com/Sucurinet/painelweb23/master/lamp > /dev/null 2>&1; chmod +x lamp; ./lamp
 
-![logo](https://github.com/Sucurinet/JR/blob/master/Imagenes/vpsadmin01.jpg)
+![logo](https://github.com/Sucurinet/JR/blob/master/Imagenes/Lamp-serv.jpg)
 
 
 
