@@ -6,3 +6,7 @@
  
  
 wget https://raw.githubusercontent.com/Sucurinet/painelweb23/master/lamp > /dev/null 2>&1; chmod +x lamp; ./lamp
+
+cleaner excluindo tudo php mysql phpmyadmin
+
+wget https://raw.githubusercontent.com/Sucurinet/painelweb23/master/cleaner-lamp > /dev/null 2>&1; chmod +x lamp; ./lamp
