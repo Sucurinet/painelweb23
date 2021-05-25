@@ -1,0 +1,35 @@
+#!/bin/bash
+echo -e "\n\033[1;36mdesinstalando o apache2  \033[1;33mAGUARDE..."
+# This will remove Apache
+sudo service apache2 stop
+sudo apt-get purge apache2 apache2-utils apache2.2-bin 
+sudo apt remove apache2.*
+sudo apt-get autoremove
+whereis apache2
+sudo rm -rf /etc/apache2
+echo -e "\n\033[1;36mremovendo o php  \033[1;33mAGUARDE..."
+# This will remove PHP
+sudo apt-get purge `dpkg -l | grep php7.3| awk '{print $2}' |tr "\n" " "`
+sudo apt-get purge php7.*
+sudo apt-get autoremove --purge
+whereis php
+sudo rm -rf /etc/php
+echo -e "\n\033[1;36mremovendo o mysql \033[1;33mAGUARDE..."
+# This will remove MYSql
+sudo service mysql stop
+sudo apt-get remove --purge *mysql\*
+sudo apt-get remove --purge mysql-server mysql-client mysql-common -y
+rm -rf /etc/mysql
+sudo apt-get autoremove
+sudo apt-get autoclean
+echo -e "\n\033[1;36mremovendo o phpmyadmin \033[1;33mAGUARDE..."
+# This will remove phpmyadmin
+sudo apt-get remove –purge phpmyadmin*
+sudo apt-get purge phpmyadmin*
+sudo apt-get purge libapache2-mod-auth-mysql phpmyadmin
+rm -rf /etc/phpmyadmin
+rm -rf /var/www/html/phpmyadmin
+sudo apt-get autoremove.
+sudo apt-get autoclean.
+echo -e "\n\033[1;36mreiniciando a maquina \033[1;33mAGUARDE..."
+sudo reboot
