@@ -51,6 +51,7 @@ sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/mysql/app-pass password $
 sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2'﻿
 sudo apt-get -y install phpmyadmin -y > /dev/null 2>&1
 ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin  > /dev/null 2>&1
+sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 55M/g' /etc/php/7.3/apache2/php.ini > /dev/null 2>&1
 sudo service apache2 restart  > /dev/null 2>&1
 echo -e "           \033[1;33m● \033[1;32mFinalizando Instalacao! \033[1;33m●\033[0m"
 cd /var/www/html
