@@ -2,11 +2,9 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# Ubuntu 20.04 dev Server
-# Run like (without sudo) - bash install_lamp.sh
+# Ubuntu 18.04 dev Server
+# Run like - bash install_lamp.sh
 # Script should auto terminate on errors
-
-export DEBIAN_FRONTEND=noninteractive
 
 echo -e "\e[96m Adding PPA  \e[39m"
 sudo add-apt-repository -y ppa:ondrej/apache2
@@ -16,30 +14,11 @@ sudo apt-get update
 echo -e "\e[96m Installing apache  \e[39m"
 sudo apt-get -y install apache2
 
-INSTALL_PHP_VER=${1:-7.4}
+echo -e "\e[96m Installing php  \e[39m"
+sudo apt-get -y install php7.3 libapache2-mod-php7.3
 
-echo -e "\e[96m Installing php - ${INSTALL_PHP_VER} \e[39m"
-sudo apt-get -y install "php${INSTALL_PHP_VER}" "libapache2-mod-php${INSTALL_PHP_VER}"
-
-sudo apt-get -y install curl zip unzip
-
-echo -e "\e[96m Installing php extensions \e[39m"
-if [ "$INSTALL_PHP_VER" = "7.4" ]; then
-  sudo apt-get -y install php7.4-json php7.4-mysql php7.4-curl php7.4-ctype php7.4-uuid \
-    php7.4-iconv php7.4-mbstring php7.4-gd php7.4-intl php7.4-xml \
-    php7.4-zip php7.4-gettext php7.4-pgsql php7.4-bcmath php7.4-redis \
-    php7.4-readline php7.4-soap php7.4-igbinary php7.4-msgpack \
-    php7.4-sqlite3
-else
-  sudo apt-get -y install php8.0-curl php8.0-ctype php8.0-uuid \
-    php8.0-pgsql php8.0-sqlite3 php8.0-gd \
-    php8.0-imap php8.0-mysql php8.0-mbstring php8.0-iconv \
-    php8.0-xml php8.0-zip php8.0-bcmath php8.0-soap php8.0-gettext \
-    php8.0-intl php8.0-readline \
-    php8.0-msgpack php8.0-igbinary php8.0-ldap \
-    php8.0-redis
-fi
-
+# Install some php exts
+sudo apt-get -y install curl zip unzip php7.3-mysql php7.3-curl php7.3-json php7.3-mbstring php7.3-gd php7.3-intl php7.3-xml php7.3-zip php-gettext php7.3-pgsql php7.3-bcmath php7.3-redis
 #sudo apt-get -y install php-xdebug
 sudo phpenmod curl
 
@@ -47,24 +26,28 @@ sudo phpenmod curl
 sudo a2enmod rewrite
 sudo a2enmod ssl
 sudo a2enmod headers
-sudo a2enmod "php${INSTALL_PHP_VER}"
 
 echo -e "\e[96m Restart apache server to reflect changes  \e[39m"
 sudo service apache2 restart
 
-# Download and install composer
+echo -e "\e[96m Installing mysql server \e[39m"
+echo -e "\e[93m User: root, Password: root \e[39m"
+
+# Install MySQL Server in a Non-Interactive mode. Default root password will be "root"
+echo "mysql-server-5.7 mysql-server/root_password password root" | sudo debconf-set-selections
+echo "mysql-server-5.7 mysql-server/root_password_again password root" | sudo debconf-set-selections
+sudo apt-get -y install mysql-server-5.7
+
+### Run next command on production server
+#sudo mysql_secure_installation
+
+# Download and install composer 
 echo -e "\e[96m Installing composer \e[39m"
 # Notice: Still using the good old way
-curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --force --filename=composer
+curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+#curl -sS https://getcomposer.org/installer | php sudo mv composer.phar /usr/local/bin/composer
 # Add this line to your .bash_profile
 # export PATH=~/.composer/vendor/bin:$PATH
-
-echo -e "\e[96m Installing psysh \e[39m"
-sudo wget https://psysh.org/psysh -O /usr/local/bin/psysh
-sudo chmod +x /usr/local/bin/psysh
-
-echo -e "\e[96m Installing mysql client \e[39m"
-sudo apt install -y mysql-client
 
 # Check php version
 php -v
@@ -72,12 +55,14 @@ php -v
 # Check apache version
 apachectl -v
 
+# Check mysql version
+mysql --version
+
 # Check if php is working or not
 php -r 'echo "\nYour PHP installation is working fine.\n";'
 
 # Fix composer folder permissions
-mkdir -p ~/.composer
-sudo chown -R "$USER" "$HOME/.composer"
+sudo chown -R $USER $HOME/.composer
 
 # Check composer version
 composer --version
@@ -86,6 +71,7 @@ echo -e "\e[92m Open http://localhost/ to check if apache is working or not. \e[
 
 # Clean up cache
 sudo apt-get clean
+
 
 
 #!/bin/bash
