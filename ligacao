@@ -4,7 +4,7 @@ echo "America/Sao_Paulo" > /etc/timezone
 ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 dpkg-reconfigure --frontend noninteractive tzdata
 rm *.sh > /dev/null 2>&1
-wget https://raw.githubusercontent.com/Sucurinet/JR/master/Install//criarusuario.sh > /dev/null 2>&1
+wget https://raw.githubusercontent.com/Sucurinet/JR/master/Install/criarusuario.sh > /dev/null 2>&1
 wget https://raw.githubusercontent.com/Sucurinet/JR/master/Install/remover.sh > /dev/null 2>&1
 wget https://raw.githubusercontent.com/Sucurinet/JR/master/Install/AlterarSenha.sh > /dev/null 2>&1
 wget https://raw.githubusercontent.com/Sucurinet/JR/master/Install/AlterarData.sh > /dev/null 2>&1
