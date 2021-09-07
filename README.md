@@ -6,16 +6,14 @@
  ___________________________________________________________________________________________________________________________________
  Instalador lamp web server instal php 7.3 apache 2.4 mysql 5.7 e phpmyadmin
  para ubuntu 16 e 18
- 
- 
+  
 wget https://raw.githubusercontent.com/Sucurinet/painelweb23/master/lamp > /dev/null 2>&1; chmod +x lamp; ./lamp
 
-![logo](https://github.com/Sucurinet/JR/blob/master/Imagenes/Lamp-serv.jpg)
+Instalador lamp web server instal php 7.2 apache 2.4 mysql 5.7 e phpmyadmin para ubuntu 18
 
- Instalador lamp web server instal php 7.2 apache 2.4 mysql 5.7 e phpmyadmin
- para ubuntu 18
- 
 wget https://raw.githubusercontent.com/Sucurinet/painelweb23/master/lamp2 > /dev/null 2>&1; chmod +x lamp2; ./lamp2
+
+![logo](https://github.com/Sucurinet/JR/blob/master/Imagenes/Lamp-serv.jpg)
 
 
 ____________________________________________________________________________________________________________________________________
