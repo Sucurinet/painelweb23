@@ -12,6 +12,10 @@ wget https://raw.githubusercontent.com/Sucurinet/painelweb23/master/lamp > /dev/
 
 ![logo](https://github.com/Sucurinet/JR/blob/master/Imagenes/Lamp-serv.jpg)
 
+ Instalador lamp web server instal php 7.2 apache 2.4 mysql 5.7 e phpmyadmin
+ para ubuntu 18
+ 
+wget https://raw.githubusercontent.com/Sucurinet/painelweb23/master/lamp2 > /dev/null 2>&1; chmod +x lamp2; ./lamp2
 
 
 ____________________________________________________________________________________________________________________________________
