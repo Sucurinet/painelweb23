@@ -30,7 +30,7 @@ sudo apt-get purge phpmyadmin*
 sudo apt-get purge libapache2-mod-auth-mysql phpmyadmin
 rm -rf /etc/phpmyadmin
 rm -rf /var/www/html/phpmyadmin
-sudo apt-get autoremove.
-sudo apt-get autoclean.
+sudo apt-get autoremove
+sudo apt-get autoclean
 echo -e "\n\033[1;36mreiniciando a maquina \033[1;33mAGUARDE..."
 sudo reboot
