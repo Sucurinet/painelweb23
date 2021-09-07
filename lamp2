@@ -1,0 +1,61 @@
+#!/bin/bash
+#set -euo pipefail
+#IFS=$'\n\t'
+echo "America/Sao_Paulo" > /etc/timezone
+ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime > /dev/null 2>&1
+dpkg-reconfigure --frontend noninteractive tzdata > /dev/null 2>&1
+IP=$(wget -qO- ipv4.icanhazip.com)
+set -euo pipefail
+IFS=$'\n\t'
+clear
+echo ""
+    apt-get update -y > /dev/null 2>&1 
+	apt-get install figlet -y > /dev/null 2>&1
+echo ""
+clear
+####################################################################################################
+echo -e "\E[44;1;37mESTE PACOTE IRAR INSTALAR O PHP APACHE MYSQL PHPMYADMIN \E[0m"
+echo ""
+echo -e "                       \033[1;31mBy @Mongevps\033[1;36m"
+echo -e "   L A M P" | figlet 
+echo -e "                       \033[1;31mLAMP-WEBSERV V 1.0\033[1;36m"
+echo ""
+echo -ne "\n\033[1;32m  DEFINA UMA SENHA PARA O\033[1;33m MySQL\033[1;37m: "; read senha
+echo -e "           \033[1;33m● \033[1;32mINSTALANDO O APACHE2 \033[1;33m●\033[0m"
+sudo apt-get install apache2 -y > /dev/null 2>&1 
+echo -e "           \033[1;33m● \033[1;32mINSTALANDO O PHP \033[1;33m●\033[0m"
+sudo apt install php libapache2-mod-php -y > /dev/null 2>&1 
+sudo apt-get install php-{bcmath,bz2,intl,gd,mbstring,mysql,zip,fpm} -y > /dev/null 2>&1 
+sudo apt install php-ssh2 -y > /dev/null 2>&1 
+#sudo phpenmod curl > /dev/null 2>&1 
+sudo a2enmod rewrite > /dev/null 2>&1 
+sudo a2enmod ssl > /dev/null 2>&1 
+sudo a2enmod headers > /dev/null 2>&1 
+echo -e "           \033[1;33m● \033[1;32mReiniciando o servidor apache para refletir as mudanças \033[1;33m●\033[0m"
+sudo service apache2 restart > /dev/null 2>&1
+echo -e "           \033[1;33m● \033[1;32mINSTALANDO O MySQL \033[1;33m●\033[0m"
+echo "mysql-server-5.7 mysql-server/root_password password $senha" | sudo debconf-set-selections
+echo "mysql-server-5.7 mysql-server/root_password_again password $senha" | sudo debconf-set-selections
+sudo apt-get install mysql-server-5.7 -y > /dev/null 2>&1
+sudo service apache2 restart > /dev/null 2>&1
+echo -e "           \033[1;33m● \033[1;32mINSTALANDO O PHPMYADMIN \033[1;33m●\033[0m"
+sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/dbconfig-install boolean true'
+sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/app-password-confirm password $senha'
+sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/mysql/admin-pass password $senha'
+sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/mysql/app-pass password $senha'
+sudo debconf-set-selections <<< 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2'﻿
+sudo apt-get install phpmyadmin -y > /dev/null 2>&1
+ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin  > /dev/null 2>&1
+sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 55M/g' /etc/php/7.2/apache2/php.ini > /dev/null 2>&1
+sudo service apache2 restart  > /dev/null 2>&1
+echo -e "           \033[1;33m● \033[1;32mFinalizando Instalacao! \033[1;33m●\033[0m"
+cd /var/www/html > /dev/null 2>&1 
+echo "<?php phpinfo(); ?>" | sudo tee phpinfo.php > /dev/null 2>&1 
+cd
+echo -e "           \033[1;33m● \033[1;32mLAMP WEBSERVER INSTALADO COM SUCESSO! \033[1;33m●\033[0m"
+echo ""
+echo -e "\033[1;36m SEU WEBSERV:\033[1;37m http://$IP/info.php\033[0m"
+echo -e "\033[1;36m USUARIO PHPMYADMIN:\033[1;37m root\033[0m"
+echo -e "\033[1;36m SENHA PHPMYADMIN:\033[1;37m $senha\033[0m"
+echo ""
+cat /dev/null > ~/.bash_history && history -c
