@@ -153,7 +153,7 @@ sed -i "s;1010;$senha;g" /var/www/html/pages/system/pass.php > /dev/null 2>&1
 fi
 sleep 1
 cd
-wget http://www.painelweb.tk/BD-Painel-v23.sql > /dev/null 2>&1
+wget https://raw.githubusercontent.com/Sucurinet/painelweb23/master/Install/Panel_Web/panel_v25/BD-Painel-v23.sql > /dev/null 2>&1
 sleep 1
 if [[ -e "$HOME/BD-Painel-v23.sql" ]]; then
     mysql -h localhost -u root -p$senha --default_character_set utf8 sshplus < BD-Painel-v23.sql
